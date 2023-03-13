@@ -9,13 +9,13 @@ import 'simplelightbox/dist/simple-lightbox.min.css';
 const refs = {
   searchForm: document.querySelector('#search-form'),
   galleryContainer: document.querySelector('.gallery'),
-  //   loadMoreBtn: document.querySelector('.load-more'),
 };
-// робимо екземпляр
+// робимо екземпляри
 const imageApiService = new ImageApiService();
-console.log(imageApiService);
 const loadMoreBtn = new LoadMoreBtn({ selektor: '.load-more', hidden: true });
-console.log(loadMoreBtn);
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+});
 // прослуховувач
 refs.searchForm.addEventListener('submit', onSearch);
 loadMoreBtn.refs.button.addEventListener('click', fetchImages);
@@ -23,8 +23,8 @@ loadMoreBtn.refs.button.addEventListener('click', fetchImages);
 function onSearch(e) {
   e.preventDefault();
 
-  imageApiService.query = e.currentTarget.elements.searchQuery.value;
-  if (imageApiService.query === '') {
+  imageApiService.searchQuery = e.currentTarget.elements.searchQuery.value;
+  if (imageApiService.searchQuery === '') {
     return;
   }
   loadMoreBtn.show();
@@ -32,12 +32,35 @@ function onSearch(e) {
   clearGallery();
   fetchImages();
 }
+
 function fetchImages() {
   loadMoreBtn.disabled();
-  imageApiService.fetchImages().then(hits => {
-    appendGalleryMarkup(hits);
-    loadMoreBtn.enable();
-  });
+  imageApiService
+    .fetchImages()
+    .then(({ data }) => {
+      if (data.total === 0) {
+        Notify.failure(
+          `Sorry, there are no images matching your search query. Please try again.`
+        );
+        loadMoreBtn.hide();
+        return;
+      }
+      appendGalleryMarkup(data);
+      smoothScrolling();
+      lightbox.refresh();
+      const { totalHits } = data;
+
+      if (refs.galleryContainer.children.length === totalHits) {
+        Notify.warning(
+          `We're sorry, but you've reached the end of search results.`
+        );
+        loadMoreBtn.hide();
+      } else {
+        loadMoreBtn.enable();
+        Notify.success(`Hooray! We found ${totalHits} images.`);
+      }
+    })
+    .catch(console.log('Error!'));
 }
 
 function appendGalleryMarkup(hits) {
@@ -49,6 +72,14 @@ function appendGalleryMarkup(hits) {
 function clearGallery() {
   refs.galleryContainer.innerHTML = '';
 }
-let lightbox = new SimpleLightbox('.gallery a', {
-  captionDelay: 250,
-});
+
+function smoothScrolling(params) {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
+  });
+}

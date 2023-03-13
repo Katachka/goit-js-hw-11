@@ -1,6 +1,6 @@
 //  розміткa картки
-function createGalleryMarkup(images) {
-  return images
+function createGalleryMarkup({ hits }) {
+  return hits
     .map(
       ({
         largeImageURL,

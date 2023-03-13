@@ -39,20 +39,18 @@ img {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 200px;
+  width: 100px;
   height: 40px;
   background-color: #b6df12;
+  border-radius: 5px;
 }
-
+.load-more:hover {
+  background: linear-gradient(to right, #0f3443, #b6df12);
+}
 .load-more.is-hidden {
   display: none;
 }
 
-/* Article List */
-/* :root {
-  --timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  --animation-duration: 250ms;
-} */
 .gallery {
   padding: 10px;
   display: flex;
