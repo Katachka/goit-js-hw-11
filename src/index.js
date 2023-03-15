@@ -46,7 +46,7 @@ function fetchImages() {
         return;
       }
       appendGalleryMarkup(data);
-      smoothScrolling();
+
       lightbox.refresh();
       const { totalHits } = data;
 
@@ -68,6 +68,7 @@ function appendGalleryMarkup(hits) {
     'beforeend',
     createGalleryMarkup(hits)
   );
+  smoothScrolling();
 }
 function clearGallery() {
   refs.galleryContainer.innerHTML = '';
@@ -78,7 +79,7 @@ function smoothScrolling() {
     refs.galleryContainer.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * -1,
+    top: cardHeight * 2,
     behavior: 'smooth',
   });
 }
