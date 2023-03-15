@@ -16,9 +16,12 @@ const loadMoreBtn = new LoadMoreBtn({ selektor: '.load-more', hidden: true });
 let lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
 });
-// прослуховувач
+// прослуховувач, метод який
 refs.searchForm.addEventListener('submit', onSearch);
-loadMoreBtn.refs.button.addEventListener('click', fetchImages);
+loadMoreBtn.refs.button.addEventListener(
+  'click',
+  fetchImages.bind(loadMoreBtn, true)
+);
 
 function onSearch(e) {
   e.preventDefault();
@@ -33,7 +36,7 @@ function onSearch(e) {
   fetchImages();
 }
 
-function fetchImages() {
+function fetchImages(isNeedScroll = false) {
   loadMoreBtn.disabled();
   imageApiService
     .fetchImages()
@@ -46,6 +49,9 @@ function fetchImages() {
         return;
       }
       appendGalleryMarkup(data);
+      if (isNeedScroll) {
+        smoothScrolling();
+      }
 
       lightbox.refresh();
       const { totalHits } = data;
@@ -62,14 +68,13 @@ function fetchImages() {
     })
     .catch(console.log('Error!'));
 }
-
 function appendGalleryMarkup(hits) {
   refs.galleryContainer.insertAdjacentHTML(
     'beforeend',
     createGalleryMarkup(hits)
   );
-  smoothScrolling();
 }
+
 function clearGallery() {
   refs.galleryContainer.innerHTML = '';
 }
@@ -79,7 +84,7 @@ function smoothScrolling() {
     refs.galleryContainer.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 2,
+    top: cardHeight * 3,
     behavior: 'smooth',
   });
 }

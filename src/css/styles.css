@@ -54,7 +54,6 @@ img {
 }
 
 .gallery {
-  /* margin: 110px auto 0; */
   padding: 85px 10px 10px 10px;
   display: flex;
   flex-wrap: wrap;
