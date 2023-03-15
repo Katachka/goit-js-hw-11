@@ -73,10 +73,9 @@ function clearGallery() {
   refs.galleryContainer.innerHTML = '';
 }
 
-function smoothScrolling(params) {
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
+function smoothScrolling() {
+  const { height: cardHeight } =
+    refs.galleryContainer.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
     top: cardHeight * 2,

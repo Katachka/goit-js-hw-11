@@ -21,7 +21,7 @@ export default class ImageApiService {
       this.incrementPage();
       return response;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
   incrementPage() {

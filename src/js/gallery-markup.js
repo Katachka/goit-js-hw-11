@@ -10,10 +10,8 @@ function createGalleryMarkup({ hits }) {
         views,
         comments,
         downloads,
-      }) => {
-        return `
-      
-  <div class="photo-card">
+      }) => `  
+<div class="photo-card">
    <a href="${largeImageURL}">
     <img class="photo-card__img" src="${webformatURL}" alt="${tags}" loading="lazy"  width="320" height="212"/>
   </a>
@@ -23,8 +21,7 @@ function createGalleryMarkup({ hits }) {
       <p class="info-item"><b>Comments</b> ${comments}</p>
       <p class="info-item"><b>Downloads</b>${downloads}</p>
     </div>
-  </div> `;
-      }
+  </div> `
     )
     .join('');
 }
