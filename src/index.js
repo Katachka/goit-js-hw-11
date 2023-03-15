@@ -72,13 +72,13 @@ function appendGalleryMarkup(hits) {
 function clearGallery() {
   refs.galleryContainer.innerHTML = '';
 }
-
+//  Цей код дозволяє автоматично прокручувати сторінку на висоту N карток галереї, коли вона завантажується
 function smoothScrolling() {
   const { height: cardHeight } =
     refs.galleryContainer.firstElementChild.getBoundingClientRect();
 
   window.scrollBy({
-    top: cardHeight * 2,
+    top: cardHeight * -1,
     behavior: 'smooth',
   });
 }

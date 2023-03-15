@@ -44,6 +44,7 @@ img {
   height: 40px;
   background-color: #b6df12;
   border-radius: 5px;
+  cursor: pointer;
 }
 .load-more:hover {
   background: linear-gradient(to right, #0f3443, #b6df12);
@@ -53,7 +54,8 @@ img {
 }
 
 .gallery {
-  padding: 10px;
+  /* margin: 110px auto 0; */
+  padding: 85px 10px 10px 10px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
